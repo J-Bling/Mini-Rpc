@@ -7,15 +7,15 @@ import com.bling.rpc.service.VertxHttpServer;
 import com.bling.rpc.springboot.starter.annotation.RpcService;
 import com.bling.rpc.springboot.starter.properties.MiniServerProperties;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 public class RemoteServiceRegisterComponent implements BeanPostProcessor{
-    private final NacosRegisterComponent nacosRegisterComponent;
+    @Autowired(required = false)
+    private NacosRegisterComponent nacosRegisterComponent;
     private final MiniServerProperties serverProperties;
 
-    public RemoteServiceRegisterComponent(NacosRegisterComponent nacosRegisterComponent,
-                                          MiniServerProperties serverProperties){
-        this.nacosRegisterComponent = nacosRegisterComponent;
+    public RemoteServiceRegisterComponent(MiniServerProperties serverProperties){
         this.serverProperties = serverProperties;
     }
 
@@ -30,9 +30,12 @@ public class RemoteServiceRegisterComponent implements BeanPostProcessor{
         if (rpcService==null){
             return BeanPostProcessor.super.postProcessBeforeInitialization(bean,beanName);
         }
+        System.out.println("注册服务 "+beanName);
         Class<?> interfaceClass = rpcService.interfaceName();
         if (interfaceClass==void.class){
-            interfaceClass = beanClass;
+            Class<?>[] interfacesClass = beanClass.getInterfaces();
+            interfaceClass = interfacesClass.length == 0 ? beanClass : interfacesClass[0];
+//            interfaceClass = beanClass;
         }
         String serviceName = rpcService.serverName();
         if (serviceName.isEmpty()){

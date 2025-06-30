@@ -8,7 +8,6 @@ spring:
 
 minio-rpc:
   nacos:
-    enable: true
-    address:
+    enable: false
   server:
     enable: false

@@ -7,15 +7,17 @@ import com.bling.rpc.proxy.ServiceProxyFactory;
 import com.bling.rpc.springboot.starter.annotation.RpcReference;
 import com.bling.rpc.springboot.starter.properties.MiniConsumerProperties;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import java.lang.reflect.Field;
 
 public class SetReferenceProxy implements BeanPostProcessor {
-    private final ServerDiscovery serverDiscovery;
+    @Autowired(required = false)
+    private ServerDiscovery serverDiscovery;
 
-    public SetReferenceProxy(ServerDiscovery serverDiscovery){
-        this.serverDiscovery = serverDiscovery;
+    public SetReferenceProxy(){
+
     }
 
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -26,6 +28,7 @@ public class SetReferenceProxy implements BeanPostProcessor {
             if (reference==null){
                 continue;
             }
+
             String address = reference.address();
             String serviceName = reference.serviceName();
             Class<?> interfaceClass = reference.interfaceClass();
@@ -35,12 +38,14 @@ public class SetReferenceProxy implements BeanPostProcessor {
             if (serviceName.isEmpty()){
                 serviceName = interfaceClass.getName();
             }
-            Object proxy = ServiceProxyFactory.getProxy(interfaceClass,address,serviceName,getCallback());
-            field.setAccessible(true);
+            System.out.println("接入字段:"+field.getName());
             try {
+                field.setAccessible(true);
+                Object proxy = ServiceProxyFactory.getProxy(interfaceClass,address,serviceName,getCallback());
                 field.set(bean,proxy);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                e.printStackTrace();
+//                throw new RuntimeException(e);
             }finally {
                 field.setAccessible(false);
             }

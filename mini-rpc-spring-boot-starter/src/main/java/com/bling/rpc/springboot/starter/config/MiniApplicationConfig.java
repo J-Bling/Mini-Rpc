@@ -11,7 +11,6 @@ import com.bling.rpc.springboot.starter.properties.MiniConsumerProperties;
 import com.bling.rpc.springboot.starter.properties.MiniNacosProperties;
 import com.bling.rpc.springboot.starter.properties.MiniServerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,30 +39,25 @@ public class MiniApplicationConfig {
 
 
     @Bean
-    @ConditionalOnBean(NamingService.class)
     public NacosRegisterComponent nacosRegisterComponent() throws NacosException {
-        if (serverProperties.getEnable()){
-            return new NacosRegisterComponent(this.namingService(),serverProperties);
-        }
-        return null;
+        return new NacosRegisterComponent(serverProperties);
     }
 
     @Bean
-    @ConditionalOnBean(NamingService.class)
     public ServerDiscovery serverDiscovery() throws NacosException {
-        return new ServerDiscovery(this.namingService(),serverProperties);
+        return new ServerDiscovery(serverProperties);
     }
 
     @Bean
     public RemoteServiceRegisterComponent remoteServiceRegisterComponent() throws NacosException {
-        RemoteServiceRegisterComponent component=
-                new RemoteServiceRegisterComponent(this.nacosRegisterComponent(),serverProperties);
+        RemoteServiceRegisterComponent component= new RemoteServiceRegisterComponent(serverProperties);
         component.init();
         return component;
     }
 
     @Bean
     public SetReferenceProxy setReferenceProxy() throws NacosException {
-        return new SetReferenceProxy(this.serverDiscovery());
+        return new SetReferenceProxy();
     }
+
 }

@@ -50,7 +50,10 @@ public class ServiceProxy implements InvocationHandler {
         try{
             byte[] bytes = serializer.serializer(rpcRequest);
             String add = callback == null ? address : callback.get(sName);
-            try(HttpResponse httpResponse = HttpRequest.post(address)
+            if (add==null){
+                throw new RuntimeException("调用地址不能为null");
+            }
+            try(HttpResponse httpResponse = HttpRequest.post(add)
                     .body(bytes)
                     .execute()
             ){

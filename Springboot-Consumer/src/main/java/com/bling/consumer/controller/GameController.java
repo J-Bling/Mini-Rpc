@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class GameController {
-    @RpcReference
+    @RpcReference(address = "localhost:9009",interfaceClass = GameService.class)
     private GameService gameService;
 
     @GetMapping("/get/{n}/{v}")

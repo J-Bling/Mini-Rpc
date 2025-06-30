@@ -7,6 +7,7 @@ import com.bling.rpc.serializer.JdkSerializer;
 import com.bling.rpc.serializer.Serializer;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 
@@ -19,22 +20,28 @@ public class HttpServerHandle implements Handler<HttpServerRequest> {
 
     @Override
     public void handle(HttpServerRequest request) {
-        System.out.println("receive request "+request.method()+" uri:"+request.uri());
+//        System.out.println("receive request "+request.method()+" uri:"+request.uri());
+        if (!request.method().equals(HttpMethod.POST)){
+            this.doResponse(request,RpcResponse.builder().message("错误请求").build());
+            return;
+        }
 
+        RpcResponse rpcResponse = new RpcResponse();
         request.bodyHandler(body->{
-            byte[] bytes = body.getBytes();
             RpcRequest rpcRequest = null;
             try{
+                byte[] bytes = body.getBytes();
                 rpcRequest = serializer.deserializer(bytes, RpcRequest.class);
             }catch (Exception e){
-                e.printStackTrace();
+                doResponse(request,rpcResponse);
+                return;
             }
 
-            RpcResponse rpcResponse = new RpcResponse();
             if (rpcRequest==null){
                 rpcResponse.setException(new RuntimeException("bad request"));
                 rpcResponse.setMessage("400");
                 doResponse(request, rpcResponse);
+                return;
             }
 
 
