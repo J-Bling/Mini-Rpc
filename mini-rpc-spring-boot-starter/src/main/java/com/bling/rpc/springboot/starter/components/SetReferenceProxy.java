@@ -12,11 +12,9 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import java.lang.reflect.Field;
 
 public class SetReferenceProxy implements BeanPostProcessor {
-    private final MiniConsumerProperties consumerProperties;
     private final ServerDiscovery serverDiscovery;
 
-    public SetReferenceProxy(MiniConsumerProperties consumerProperties,ServerDiscovery serverDiscovery){
-        this.consumerProperties = consumerProperties;
+    public SetReferenceProxy(ServerDiscovery serverDiscovery){
         this.serverDiscovery = serverDiscovery;
     }
 

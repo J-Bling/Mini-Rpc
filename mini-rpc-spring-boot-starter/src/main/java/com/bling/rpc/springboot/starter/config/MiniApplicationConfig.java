@@ -64,6 +64,6 @@ public class MiniApplicationConfig {
 
     @Bean
     public SetReferenceProxy setReferenceProxy() throws NacosException {
-        return new SetReferenceProxy(consumerProperties,this.serverDiscovery());
+        return new SetReferenceProxy(this.serverDiscovery());
     }
 }

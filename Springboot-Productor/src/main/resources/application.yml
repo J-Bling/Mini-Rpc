@@ -1,0 +1,13 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: product
+
+minio-rpc:
+  nacos:
+    enable: true
+    address:
+  server:
+    enable: true
