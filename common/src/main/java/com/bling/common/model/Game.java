@@ -1,6 +1,8 @@
 package com.bling.common.model;
 
-public class Game {
+import java.io.Serializable;
+
+public class Game implements Serializable {
     private String version;
     private String name;
 

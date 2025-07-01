@@ -38,7 +38,6 @@ public class SetReferenceProxy implements BeanPostProcessor {
             if (serviceName.isEmpty()){
                 serviceName = interfaceClass.getName();
             }
-            System.out.println("接入字段:"+field.getName());
             try {
                 field.setAccessible(true);
                 Object proxy = ServiceProxyFactory.getProxy(interfaceClass,address,serviceName,getCallback());

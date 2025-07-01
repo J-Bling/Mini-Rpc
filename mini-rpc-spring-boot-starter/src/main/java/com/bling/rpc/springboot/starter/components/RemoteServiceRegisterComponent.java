@@ -50,7 +50,7 @@ public class RemoteServiceRegisterComponent implements BeanPostProcessor{
             }
         }
         //本地注册
-        ServiceRegister.register(serviceName,interfaceClass);
+        ServiceRegister.register(serviceName,bean);
 
         return BeanPostProcessor.super.postProcessBeforeInitialization(bean,beanName);
     }

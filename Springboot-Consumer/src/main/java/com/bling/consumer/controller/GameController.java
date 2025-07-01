@@ -11,11 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class GameController {
-    @RpcReference(address = "localhost:9009",interfaceClass = GameService.class)
+    @RpcReference(address = "localhost:9009",serviceName = "userName")
     private GameService gameService;
 
     @GetMapping("/get/{n}/{v}")
     public Game get(@PathVariable("n") String n,@PathVariable("v") String v){
-        return gameService.generateGame(v,n);
+        try {
+            return gameService.generateGame(v, n);
+        }catch (Exception r){
+            Game game = new Game();
+            game.setName(r.getMessage());
+            return game;
+        }
     }
 }

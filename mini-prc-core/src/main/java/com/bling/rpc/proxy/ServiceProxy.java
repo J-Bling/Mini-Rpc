@@ -49,7 +49,7 @@ public class ServiceProxy implements InvocationHandler {
 
         try{
             byte[] bytes = serializer.serializer(rpcRequest);
-            String add = callback == null ? address : callback.get(sName);
+            String add = address == null ? callback.get(serviceName) : address;
             if (add==null){
                 throw new RuntimeException("调用地址不能为null");
             }

@@ -46,9 +46,12 @@ public class HttpServerHandle implements Handler<HttpServerRequest> {
 
 
             try{
-                Class<?> interfaceClass = ServiceRegister.get(rpcRequest.getServiceName());
-                Method method = interfaceClass.getMethod(rpcRequest.getMethodName(),rpcRequest.getParameterTypes());
-                Object result = method.invoke(interfaceClass.newInstance(),rpcRequest.getArgs());
+                Object bean = ServiceRegister.get(rpcRequest.getServiceName());
+                if (bean==null){
+                    throw new RuntimeException("没有该接口");
+                }
+                Method method = bean.getClass().getMethod(rpcRequest.getMethodName(),rpcRequest.getParameterTypes());
+                Object result = method.invoke(bean,rpcRequest.getArgs());
                 rpcResponse.setException(null);
                 rpcResponse.setMessage("invoke ok");
                 rpcResponse.setData(result);
