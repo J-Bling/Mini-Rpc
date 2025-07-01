@@ -35,7 +35,6 @@ public class RemoteServiceRegisterComponent implements BeanPostProcessor{
         if (interfaceClass==void.class){
             Class<?>[] interfacesClass = beanClass.getInterfaces();
             interfaceClass = interfacesClass.length == 0 ? beanClass : interfacesClass[0];
-//            interfaceClass = beanClass;
         }
         String serviceName = rpcService.serverName();
         if (serviceName.isEmpty()){

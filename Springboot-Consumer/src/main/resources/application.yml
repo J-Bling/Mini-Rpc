@@ -6,8 +6,11 @@ spring:
     name: consumer
 
 
-minio-rpc:
+mini-rpc:
   nacos:
-    enable: false
+    enable: true
   server:
     enable: false
+    port: 9008
+  consumer:
+    prefix: product-server

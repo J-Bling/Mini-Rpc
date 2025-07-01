@@ -45,7 +45,7 @@ public class MiniApplicationConfig {
 
     @Bean
     public ServerDiscovery serverDiscovery() throws NacosException {
-        return new ServerDiscovery(serverProperties);
+        return new ServerDiscovery(consumerProperties);
     }
 
     @Bean
@@ -57,7 +57,7 @@ public class MiniApplicationConfig {
 
     @Bean
     public SetReferenceProxy setReferenceProxy() throws NacosException {
-        return new SetReferenceProxy();
+        return new SetReferenceProxy(consumerProperties);
     }
 
 }

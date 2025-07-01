@@ -5,17 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.bling</groupId>
-    <artifactId>mini-rpc-spring-boot-starter</artifactId>
+    <artifactId>mini-rpc</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
 
     <modules>
-        <module>mini-rpc-spring-boot-starter</module>
+        <module>common</module>
         <module>mini-prc-core</module>
+        <module>mini-rpc-spring-boot-starter</module>
         <module>Springboot-Consumer</module>
         <module>Springboot-Productor</module>
-        <module>common</module>
     </modules>
 
     <properties>

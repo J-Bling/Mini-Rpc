@@ -5,9 +5,11 @@ spring:
   application:
     name: product
 
-minio-rpc:
+mini-rpc:
   nacos:
-    enable: false
-    address:
+    enable: true
+    address: localhost:8848
   server:
     enable: true
+    prefix: product-server
+    port: 9007
