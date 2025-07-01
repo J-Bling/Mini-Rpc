@@ -16,7 +16,6 @@
 - **双模连接**：支持注册中心与直连两种服务发现模式
 
 ## 📐 核心架构
-![架构图](https://raw.githubusercontent.com/J-Bling/Mini-Rpc/main/document/images/schema.png)
 
 ```mermaid
 graph TD
